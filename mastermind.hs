@@ -65,8 +65,8 @@ allCodes = makeCodes choices numChoices
 makeCodes :: [Int] -> Int -> [[Int]]
 makeCodes _ 0 = [[]]
 makeCodes choices number =
-  [choice : guess |
-   choice <- choices, guess <- makeCodes choices (number - 1)]
+  let codes = makeCodes choices (number - 1)
+  in concat $ List.map (\ choice -> List.map (\ x -> choice:x) codes) choices
 
 -- Given a code, compute the frequencies of the unique digits in the
 -- code and sort into reverse numerical order.  E.g., a code with all
