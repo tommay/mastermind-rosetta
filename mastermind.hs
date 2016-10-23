@@ -9,7 +9,7 @@ data Stats = Stats {
 } deriving (Show)
 
 choices = [1, 2, 3, 4, 5, 6]
-numChoices = 4
+codeSize = 4
 
 main =
   let startingGuesses = uniqBy categorize allCodes
@@ -32,7 +32,7 @@ foldGuess code depth possibilities stats guess =
   --        ", possibilities: " ++ show possibilities ++
   --        ", guess: " ++ show guess ++ ", stats: " ++ show stats) $
   let score = computeScore guess code
-  in if fst score == numChoices
+  in if fst score == codeSize
        then -- trace "solved" $
             solvedIt depth stats
        else -- trace ("score: " ++ show score) $
@@ -47,7 +47,7 @@ foldGuess code depth possibilities stats guess =
 computeScore :: [Int] -> [Int] -> (Int, Int)
 computeScore guess code =
   let mismatched = List.filter (\ (c, g) -> c /= g) $ zip code guess
-      red = numChoices - length mismatched
+      red = codeSize - length mismatched
       c2 = [c | (c, _) <- mismatched]
       g2 = [g | (_, g) <- mismatched]
       (white, _) =
@@ -60,12 +60,12 @@ computeScore guess code =
   in (red, white)
 
 allCodes :: [[Int]]
-allCodes = makeCodes choices numChoices
+allCodes = makeCodes choices codeSize
 
 makeCodes :: [Int] -> Int -> [[Int]]
 makeCodes _ 0 = [[]]
-makeCodes choices number =
-  let codes = makeCodes choices (number - 1)
+makeCodes choices size =
+  let codes = makeCodes choices (size - 1)
   in concat $ List.map (\ choice -> List.map (\ x -> choice:x) codes) choices
 
 -- Given a code, compute the frequencies of the unique digits in the
