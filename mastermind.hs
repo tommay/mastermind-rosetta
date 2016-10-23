@@ -31,7 +31,7 @@ foldGuess code depth possibilities stats guess =
   -- trace ("code: " ++ show code ++ ", depth: " ++ show depth ++
   --        ", possibilities: " ++ show possibilities ++
   --        ", guess: " ++ show guess ++ ", stats: " ++ show stats) $
-  let score = computeScore code guess
+  let score = computeScore guess code
   in if fst score == numChoices
        then -- trace "solved" $
             solvedIt depth stats
@@ -45,7 +45,7 @@ foldGuess code depth possibilities stats guess =
                  remainingPossibilities
 
 computeScore :: [Int] -> [Int] -> (Int, Int)
-computeScore code guess =
+computeScore guess code =
   let mismatched = List.filter (\ (c, g) -> c /= g) $ zip code guess
       red = numChoices - length mismatched
       c2 = [c | (c, _) <- mismatched]
