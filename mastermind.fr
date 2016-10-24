@@ -10,7 +10,7 @@ data Stats = Stats {
   maxDepth :: Int
 }
 
-choices = [1, 2, 3]
+choices = [1, 2, 3, 4, 5]
 codeSize = 4
 
 main =
@@ -80,7 +80,7 @@ categorize code =
   reverse $ List.sort $ Map.values $ count code
 
 solvedIt :: Int -> Stats -> Stats
-solvedIt depth (Stats solved total maxDepth) =
+solvedIt depth (Stats !solved !total !maxDepth) =
   Stats (solved + 1) (total + depth) (max depth maxDepth)
 
 statsToString :: Stats -> String
