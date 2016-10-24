@@ -53,11 +53,11 @@ computeScore guess code =
       c2 = [c | (c, _) <- mismatched]
       g2 = [g | (_, g) <- mismatched]
       (white, _) =
-        foldl' (\ (count, remaining) g ->
+        foldl' (\ (accum@(count, remaining)) g ->
           -- XXX we don't have to traverse the remaining list twice
           if g `elem` remaining
             then (count + 1, List.delete g remaining)
-            else (count, remaining))
+            else accum)
           (0, c2) g2
   in (red, white)
 
