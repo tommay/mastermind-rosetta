@@ -10,4 +10,4 @@ run: frege
 	java -cp build:fregec.jar Mastermind
 
 clean:
-	rm mastermind *.o *.hi
+	rm -fr mastermind *.o *.hi build
