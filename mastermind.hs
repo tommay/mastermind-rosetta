@@ -79,7 +79,7 @@ categorize code =
   reverse $ List.sort $ Map.elems $ count code
 
 solvedIt :: Int -> Stats -> Stats
-solvedIt depth (Stats solved total maxDepth) =
+solvedIt depth (Stats !solved !total !maxDepth) =
   Stats (solved + 1) (total + depth) (max depth maxDepth)
 
 statsToString :: Stats -> String
