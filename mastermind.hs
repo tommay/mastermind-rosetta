@@ -57,16 +57,17 @@ computeScore guess code =
 countWhite :: [Int] -> [Int] -> Int
 countWhite [] _ = 0
 countWhite (g:rest) code =
-  case remove g code of
-    Nothing -> countWhite rest code
-    Just newCode -> 1 + countWhite rest newCode
+  let newCode = remove g code
+  in if code == newCode
+    then countWhite rest code
+    else 1 + countWhite rest newCode
 
-remove :: Eq a => a -> [a] -> Maybe [a]
-remove _ [] = Nothing
+remove :: Eq a => a -> [a] -> [a]
+remove _ [] = []
 remove element (first:rest) =
-  if element == first
-    then Just rest
-    else fmap (first:) $ remove element rest
+  if first == element
+    then rest
+    else first : remove element rest
 
 allCodes :: [[Int]]
 allCodes = makeCodes choices codeSize
