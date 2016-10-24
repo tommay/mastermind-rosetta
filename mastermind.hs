@@ -9,7 +9,7 @@ data Stats = Stats {
   maxDepth :: Int
 } deriving (Show)
 
-choices = [1, 2, 3, 4, 5, 6]
+choices = [1, 2, 3, 4, 5]
 codeSize = 4
 
 main =
@@ -51,14 +51,22 @@ computeScore guess code =
       red = codeSize - length mismatched
       c2 = [c | (c, _) <- mismatched]
       g2 = [g | (_, g) <- mismatched]
-      (white, _) =
-        List.foldl' (\ accum@(count, remaining) g ->
-          -- XXX we don't have to traverse the remaining list twice
-          if g `elem` remaining
-            then (count + 1, List.delete g remaining)
-            else accum)
-          (0, c2) g2
+      white = countWhite g2 c2
   in (red, white)
+
+countWhite :: [Int] -> [Int] -> Int
+countWhite [] _ = 0
+countWhite (g:rest) code =
+  case remove g code of
+    Nothing -> countWhite rest code
+    Just newCode -> 1 + countWhite rest newCode
+
+remove :: Eq a => a -> [a] -> Maybe [a]
+remove _ [] = Nothing
+remove element (first:rest) =
+  if element == first
+    then Just rest
+    else fmap (first:) $ remove element rest
 
 allCodes :: [[Int]]
 allCodes = makeCodes choices codeSize
