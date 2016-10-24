@@ -1,5 +1,6 @@
-import Data.List as List
-import Data.Map as Map
+import qualified Data.List as List
+import Data.Map (Map)
+import qualified Data.Map as Map
 import Debug.Trace
 
 data Stats = Stats {
@@ -13,10 +14,10 @@ codeSize = 4
 
 main =
   let startingGuesses = uniqBy categorize allCodes
-      stats = List.map computeStats startingGuesses
-      zipped = zip (List.map categorize startingGuesses) stats
+      stats = map computeStats startingGuesses
+      zipped = zip (map categorize startingGuesses) stats
       toString (category, stats) = show category ++ ": " ++ statsToString stats
-  in mapM_ putStrLn $ List.map toString zipped
+  in mapM_ putStrLn $ map toString zipped
 
 computeStats :: [Int] -> Stats
 computeStats startingGuess =
@@ -37,7 +38,7 @@ foldGuess code depth possibilities stats guess =
             solvedIt depth stats
        else -- trace ("score: " ++ show score) $
             let remainingPossibilities =
-                  List.filter ((== score) . computeScore guess)
+                  filter ((== score) . computeScore guess)
                   $ possibilities
             in List.foldl'
                  (foldGuess code (depth + 1) remainingPossibilities)
@@ -46,7 +47,7 @@ foldGuess code depth possibilities stats guess =
 
 computeScore :: [Int] -> [Int] -> (Int, Int)
 computeScore guess code =
-  let mismatched = List.filter (\ (c, g) -> c /= g) $ zip code guess
+  let mismatched = filter (\ (c, g) -> c /= g) $ zip code guess
       red = codeSize - length mismatched
       c2 = [c | (c, _) <- mismatched]
       g2 = [g | (_, g) <- mismatched]
@@ -66,7 +67,7 @@ makeCodes :: [Int] -> Int -> [[Int]]
 makeCodes _ 0 = [[]]
 makeCodes choices size =
   let codes = makeCodes choices (size - 1)
-  in concat $ List.map (\ choice -> List.map (\ x -> choice:x) codes) choices
+  in concat $ map (\ choice -> map (\ x -> choice:x) codes) choices
 
 -- Given a code, compute the frequencies of the unique digits in the
 -- code and sort into reverse numerical order.  E.g., a code with all
@@ -99,5 +100,4 @@ groupBy func list =
 
 uniqBy :: Ord k => (a -> k) -> [a] -> [a]
 uniqBy func list =
-  Map.elems
-    $ List.foldl' (\ map e -> Map.insert (func e) e map) Map.empty list
+  Map.elems $ List.foldl' (\ map e -> Map.insert (func e) e map) Map.empty list
