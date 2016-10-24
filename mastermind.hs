@@ -21,14 +21,14 @@ main =
 
 computeStats :: [Int] -> Stats
 computeStats startingGuess =
-  List.foldl' (foldCode startingGuess) (Stats 0 0 0) allCodes
+  foldr (foldCode startingGuess) (Stats 0 0 0) allCodes
 
-foldCode :: [Int] -> Stats -> [Int] -> Stats
-foldCode startingGuess stats code =
-  foldGuess code 1 allCodes stats startingGuess
+foldCode :: [Int] -> [Int] -> Stats -> Stats
+foldCode startingGuess code stats =
+  foldGuess code 1 allCodes startingGuess stats
 
-foldGuess :: [Int] -> Int -> [[Int]] -> Stats -> [Int]-> Stats
-foldGuess code depth possibilities stats guess =
+foldGuess :: [Int] -> Int -> [[Int]] -> [Int]-> Stats -> Stats
+foldGuess code depth possibilities guess stats =
   -- trace ("code: " ++ show code ++ ", depth: " ++ show depth ++
   --        ", possibilities: " ++ show possibilities ++
   --        ", guess: " ++ show guess ++ ", stats: " ++ show stats) $
@@ -40,7 +40,7 @@ foldGuess code depth possibilities stats guess =
             let remainingPossibilities =
                   filter ((== score) . computeScore guess)
                   $ possibilities
-            in List.foldl'
+            in foldr
                  (foldGuess code (depth + 1) remainingPossibilities)
                  stats
                  remainingPossibilities
