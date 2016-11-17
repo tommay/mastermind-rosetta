@@ -45,6 +45,10 @@ foldGuess code depth possibilities stats guess =
                  stats
                  remainingPossibilities
 
+-- Given a guess and a code, return a pair containing the numnber of
+-- exact matches (red), and the number of "right color wrong place"
+-- (white).  The result is the same if guess and code are swapped.
+--
 computeScore :: [Int] -> [Int] -> (Int, Int)
 computeScore guess code =
   let mismatched = filter (\ (c, g) -> c /= g) $ zip code guess
@@ -61,6 +65,9 @@ countWhite (g:rest) code =
     Nothing -> countWhite rest code
     Just newCode -> 1 + countWhite rest newCode
 
+-- remove first occurrence of the element from the list.  If the
+-- element was not found returns Nothing, otherwise Just list.
+--
 remove :: Eq a => a -> [a] -> Maybe [a]
 remove _ [] = Nothing
 remove element (first:rest) =
@@ -96,16 +103,27 @@ statsToString (Stats solved total maxDepth) =
   in "Solved: " ++ show solved ++ ", average: " ++ show average ++
     ", maxDepth: " ++ show maxDepth
 
+-- Takes a list of items, and returns a map where the keys are the
+-- items and the values are the number of times the item occurs in the
+-- list.
+--
 count :: Ord a => [a] -> Map a Int
 count list =
   List.foldl' (\ map digit -> Map.insertWith (+) digit 1 map)
     Map.empty list
 
+-- Takes a list of items and a function that maps an item to a key,
+-- and returns a map with each resultant key mapped to a list of the
+-- items that mapped to that key.
+--
 groupBy :: Ord k => (a -> k) -> [a] -> Map k [a]
 groupBy func list =
   List.foldl' (\ map e -> Map.insertWith (++) (func e) [e] map)
     Map.empty list
 
+-- Takes a list of items and a function that maps an item to a key,
+-- and returns a list of unique items based on the key.
+--
 uniqBy :: Ord k => (a -> k) -> [a] -> [a]
 uniqBy func list =
   Map.elems $ List.foldl' (\ map e -> Map.insert (func e) e map) Map.empty list
