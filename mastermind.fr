@@ -95,7 +95,7 @@ statsToString :: Stats -> String
 statsToString (Stats solved total maxDepth) =
   let average = fromIntegral total / fromIntegral solved :: Double
   in "Solved: " ++ show solved ++ ", average: " ++ show average ++
-     ", maxDepth: " ++ show maxDepth
+    ", maxDepth: " ++ show maxDepth
 
 count :: Ord a => [a] -> Map a Int
 count list =
