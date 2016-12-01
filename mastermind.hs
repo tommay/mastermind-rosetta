@@ -113,15 +113,6 @@ count list =
     Map.empty list
 
 -- Takes a list of items and a function that maps an item to a key,
--- and returns a map with each resultant key mapped to a list of the
--- items that mapped to that key.
---
-groupBy :: Ord k => (a -> k) -> [a] -> Map k [a]
-groupBy func list =
-  List.foldl' (\ map e -> Map.insertWith (++) (func e) [e] map)
-    Map.empty list
-
--- Takes a list of items and a function that maps an item to a key,
 -- and returns a list of unique items based on the key.
 --
 uniqBy :: Ord k => (a -> k) -> [a] -> [a]
