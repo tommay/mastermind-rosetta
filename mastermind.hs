@@ -80,7 +80,7 @@ remove element (first:rest) =
 allCodes :: [[Int]]
 allCodes = makeCodes choices codeSize
 
-makeCodes :: [Int] -> Int -> [[Int]]
+makeCodes :: [a] -> Int -> [[a]]
 makeCodes _ 0 = [[]]
 makeCodes choices size =
   let codes = makeCodes choices (size - 1)
