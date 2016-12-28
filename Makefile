@@ -10,5 +10,13 @@ build/Mastermind.class: mastermind.fr
 run: frege
 	java -cp build:fregec.jar Mastermind
 
+scala: Mastermind.class
+
+Mastermind.class: mastermind.scala
+	scalac -opt:l:classpath mastermind.scala
+
+run-scala: Mastermind.class
+	bash -c "time scala Mastermind"
+
 clean:
-	rm -fr mastermind *.o *.hi build
+	rm -fr mastermind *.o *.hi build *.class
