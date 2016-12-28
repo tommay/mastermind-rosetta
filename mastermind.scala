@@ -15,20 +15,20 @@ object Mastermind {
 
   def computeStats(startingGuess: List[Int]) : Stats = {
     allCodes.foldLeft(new Stats) {
-      (accum, code) => foldCode(startingGuess, accum, code)
+      foldCode(startingGuess)
     }
   }
 
-  def foldCode(startingGuess: List[Int], stats: Stats, code: List[Int])
+  def foldCode(startingGuess: List[Int])(stats: Stats, code: List[Int])
     : Stats =
   {
-    foldGuess(code, 1, allCodes, stats, startingGuess)
+    foldGuess(code, 1, allCodes)(stats, startingGuess)
   }
 
   def foldGuess(code: List[Int],
 		depth: Int,
-		possibilities: List[List[Int]],
-		stats: Stats,
+		possibilities: List[List[Int]])
+	       (stats: Stats,
 		guess: List[Int]) : Stats =
   {
     val score = computeScore(guess, code)
@@ -39,8 +39,7 @@ object Mastermind {
       val remainingPossibilities =
 	possibilities.filter{computeScore(guess, _) == score}
       remainingPossibilities.foldLeft(stats) {
-	(accum, guess) =>
-	  foldGuess(code, depth + 1, remainingPossibilities, accum, guess)
+	  foldGuess(code, depth + 1, remainingPossibilities)
       }
     }
   }
