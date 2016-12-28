@@ -84,7 +84,7 @@ makeCodes :: [a] -> Int -> [[a]]
 makeCodes _ 0 = [[]]
 makeCodes choices size =
   let codes = makeCodes choices (size - 1)
-  in concat $ map (\ choice -> map (\ x -> choice:x) codes) choices
+  in concat $ map (\ choice -> map (choice:) codes) choices
 
 -- Given a code, compute the frequencies of the unique digits in the
 -- code and sort into reverse numerical order.  E.g., a code with all
