@@ -9,7 +9,7 @@ data Stats = Stats {
   maxDepth :: Int
 } deriving (Show)
 
-choices = [1, 2, 3, 4, 5]
+choices = [1..5]
 codeSize = 4
 
 main =
