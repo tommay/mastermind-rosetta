@@ -1,0 +1,65 @@
+choices = [1, 2, 3, 4, 5]
+codeSize = 4
+
+haskell: 
+real	2m16.331s
+user	2m15.693s
+sys	0m0.633s
+
+Roll my own remove version 1.  Win:
+real	1m54.844s
+user	1m54.300s
+sys	0m0.527s
+
+Roll my own remove version 2.  Lose:
+real	2m28.533s
+user	2m27.863s
+sys	0m0.650s
+
+foldr instead of foldl'.  Small lose:
+real	1m57.616s
+user	1m56.983s
+sys	0m0.620s
+
+frege: 
+real	38m44.499s
+user	38m18.490s
+sys	0m36.787s
+
+Roll my own remove version 1.  Big win:
+real	28m23.496s
+user	28m4.620s
+sys	0m27.870s
+
+Frege seems to create fairly straightforward Java code which ends up
+being slow as molasses.
+
+ruby 2.3.0:
+real	38m51.391s
+user	38m44.283s
+sys	0m0.220s
+
+jruby 9.0.5.0:
+real	35m13.899s
+user	35m1.700s
+sys	0m25.217s
+
+clojure:
+real	46m18.510s
+user	45m51.706s
+sys	0m40.507s
+
+scala 1.8.0_112/25.112-b15:
+real	5m32.733s
+user	5m26.393s
+sys	0m8.367s
+
+scala -opt:l:classpath 1.8.0_112/25.112-b15:
+real	5m28.361s
+user	5m23.523s
+sys	0m7.777s
+
+scala java 9-ea/9-ea+148:
+real	5m42.730s
+user	5m34.280s
+sys	0m9.420s
