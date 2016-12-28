@@ -2,4 +2,4 @@
 *.hi
 mastermind
 build
-
+*.class
