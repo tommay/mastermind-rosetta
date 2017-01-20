@@ -63,3 +63,8 @@ scala java 9-ea/9-ea+148:
 real	5m42.730s
 user	5m34.280s
 sys	0m9.420s
+
+erlang:
+real	12m4.654s
+user	11m56.330s
+sys	0m7.327s

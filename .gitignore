@@ -3,3 +3,4 @@
 mastermind
 build
 *.class
+*.beam
