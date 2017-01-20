@@ -51,11 +51,9 @@ foldGuess code depth possibilities stats guess =
 --
 computeScore :: [Int] -> [Int] -> (Int, Int)
 computeScore guess code =
-  let mismatched = filter (\ (c, g) -> c /= g) $ zip code guess
+  let mismatched = filter (\ (g, c) -> g /= c) $ zip guess code
       red = codeSize - length mismatched
-      -- Using the pattern match + list comprrehension is way faster
-      -- than map fst/snd.
-      (c2, g2) = unzip mismatched
+      (g2, c2) = unzip mismatched
       white = countWhite g2 c2
   in (red, white)
 
