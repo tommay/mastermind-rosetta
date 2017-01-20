@@ -1,0 +1,17 @@
+#!/usr/bin/env escript
+
+%% Compile the main mastermind code before running this:
+%% erlc mastermind.erl
+
+%% escript:
+%% http://erlang.org/doc/man/escript.html
+
+%% These two lines are optional.
+%%
+-module(main).
+-export([main/1]).
+
+main([]) ->
+    mastermind:main();
+main(_) ->
+    io:format("Usage: mastermind-escript~n").
