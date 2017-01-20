@@ -55,8 +55,7 @@ computeScore guess code =
       red = codeSize - length mismatched
       -- Using the pattern match + list comprrehension is way faster
       -- than map fst/snd.
-      c2 = [c | (c, _) <- mismatched]
-      g2 = [g | (_, g) <- mismatched]
+      (c2, g2) = unzip mismatched
       white = countWhite g2 c2
   in (red, white)
 
