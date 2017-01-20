@@ -52,10 +52,9 @@ foldGuess code depth possibilities stats guess =
 --
 computeScore :: [Int] -> [Int] -> (Int, Int)
 computeScore guess code =
-  let mismatched = filter (\ (c, g) -> c /= g) $ zip code guess
+  let mismatched = filter (\ (g, c) -> g /= c) $ zip guess code
       red = codeSize - length mismatched
-      c2 = [c | (c, _) <- mismatched]
-      g2 = [g | (_, g) <- mismatched]
+      (g2, c2) = unzip mismatched
       white = countWhite g2 c2
   in (red, white)
 
