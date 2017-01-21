@@ -22,17 +22,9 @@ user	1m56.983s
 sys	0m0.620s
 
 frege: 
-real	38m44.499s
-user	38m18.490s
-sys	0m36.787s
-
-Roll my own remove version 1.  Big win:
-real	28m23.496s
-user	28m4.620s
-sys	0m27.870s
-
-Frege seems to create fairly straightforward Java code which ends up
-being slow as molasses.
+real	22m22.897s
+user	22m3.973s
+sys	0m26.677s
 
 ruby 2.3.0:
 real	38m51.391s
