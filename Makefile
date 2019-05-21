@@ -1,5 +1,5 @@
 mastermind: mastermind.hs
-	ghc -O2 -XBangPatterns mastermind.hs
+	ghc -O2 mastermind.hs
 
 frege: build/Mastermind.class
 
