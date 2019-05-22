@@ -110,7 +110,7 @@ statsToString (Stats solved total maxDepth) =
 --
 count :: Ord a => [a] -> Map a Int
 count list =
-  List.foldl' (\ map digit -> Map.insertWith (+) digit 1 map)
+  List.foldl' (\ map item -> Map.insertWith (+) item 1 map)
     Map.empty list
 
 -- Takes a list of items and a function that maps an item to a key,
