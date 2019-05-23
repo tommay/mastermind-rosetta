@@ -5,6 +5,8 @@ import Data.Map (Map)
 import qualified Data.Map as Map
 import Debug.Trace
 
+type Code = [Int]
+
 data Stats = Stats {
   solved :: Int,
   total :: Int,
@@ -21,15 +23,15 @@ main =
       toString (category, stats) = show category ++ ": " ++ statsToString stats
   in mapM_ putStrLn $ map toString zipped
 
-computeStats :: [Int] -> Stats
+computeStats :: Code -> Stats
 computeStats startingGuess =
   List.foldl' (foldCode startingGuess) (Stats 0 0 0) allCodes
 
-foldCode :: [Int] -> Stats -> [Int] -> Stats
+foldCode :: Code -> Stats -> Code -> Stats
 foldCode startingGuess stats code =
   foldGuess code 1 allCodes stats startingGuess
 
-foldGuess :: [Int] -> Int -> [[Int]] -> Stats -> [Int]-> Stats
+foldGuess :: Code -> Int -> [Code] -> Stats -> Code-> Stats
 foldGuess code depth possibilities stats guess =
   -- trace ("code: " ++ show code ++ ", depth: " ++ show depth ++
   --        ", possibilities: " ++ show possibilities ++
@@ -51,7 +53,7 @@ foldGuess code depth possibilities stats guess =
 -- exact matches (red), and the number of "right color wrong place"
 -- (white).  The result is the same if guess and code are swapped.
 --
-computeScore :: [Int] -> [Int] -> (Int, Int)
+computeScore :: Code -> Code -> (Int, Int)
 computeScore guess code =
   let mismatched = filter (\ (g, c) -> g /= c) $ zip guess code
       red = codeSize - length mismatched
@@ -59,7 +61,7 @@ computeScore guess code =
       white = countWhite g2 c2
   in (red, white)
 
-countWhite :: [Int] -> [Int] -> Int
+countWhite :: Code -> Code -> Int
 countWhite [] _ = 0
 countWhite (g:rest) code =
   case remove g code of
@@ -76,7 +78,7 @@ remove element (first:rest) =
     then Just rest
     else fmap (first:) $ remove element rest
 
-allCodes :: [[Int]]
+allCodes :: [Code]
 allCodes = makeCodes choices codeSize
 
 makeCodes :: [a] -> Int -> [[a]]
@@ -90,7 +92,7 @@ makeCodes choices size =
 -- unique digits maps to [1,1,1,1], a code with two digits the same
 -- maps to [2,1,1], etc.
 --
-categorize :: [Int] -> [Int]
+categorize :: Code -> [Int]
 categorize code =
   reverse $ List.sort $ Map.elems $ count code
 
